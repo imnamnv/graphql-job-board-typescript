@@ -5,11 +5,12 @@
   "type": "module",
   "scripts": {
     "build": "tsc",
-    "start": "nodemon src/server.ts",
+    "start": "concurrently \"nodemon src/server.ts\" \"graphql-codegen --config codegen.json --watch \"",
     "codegen": "graphql-codegen --config codegen.json"
   },
   "dependencies": {
     "@apollo/server": "^4.9.4",
+    "@parcel/watcher": "^2.3.0",
     "better-sqlite3": "^9.0.0",
     "cors": "^2.8.5",
     "dataloader": "^2.2.2",
@@ -26,6 +27,7 @@
     "@graphql-codegen/typescript-resolvers": "4.0.1",
     "@tsconfig/node18": "^18.2.2",
     "@types/cors": "^2.8.14",
+    "concurrently": "^8.2.2",
     "nodemon": "^3.0.1",
     "tsx": "^4.6.2",
     "typescript": "^5.2.2"
