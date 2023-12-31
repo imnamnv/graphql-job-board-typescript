@@ -14,10 +14,10 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  */
 const documents = {
     "\n  fragment JobDetail on Job {\n    id\n    date\n    title\n    company {\n      id\n      name\n    }\n    description\n  }\n": types.JobDetailFragmentDoc,
-    "\n  query CompanyById($id: ID!) {\n    company(id: $id) {\n      id\n      name\n      description\n      jobs {\n        id\n        date\n        title\n      }\n    }\n  }\n": types.CompanyByIdDocument,
-    "\n  query JobById($id: ID!) {\n    job(id: $id) {\n      ...JobDetail\n    }\n  }\n  \n": types.JobByIdDocument,
+    "\n  # use it for ts\n  query CompanyById($id: ID!) {\n    company(id: $id) {\n      id\n      name\n      description\n      jobs {\n        id\n        date\n        title\n      }\n    }\n  }\n": types.CompanyByIdDocument,
+    "\n  query JobById($id: ID!) {\n    job(id: $id) {\n      ...JobDetail\n    }\n  }\n": types.JobByIdDocument,
     "\n  query Jobs($limit: Int, $offset: Int) {\n    jobs(limit: $limit, offset: $offset) {\n      items {\n        id\n        date\n        title\n        company {\n          id\n          name\n        }\n      }\n      totalCount\n    }\n  }\n": types.JobsDocument,
-    "\n  mutation CreateJob($input: CreateJobInput!) {\n    job: createJob(input: $input) {\n      ...JobDetail\n    }\n  }\n  \n": types.CreateJobDocument,
+    "\n  mutation CreateJob($input: CreateJobInput!) {\n    job: createJob(input: $input) {\n      ...JobDetail\n    }\n  }\n": types.CreateJobDocument,
 };
 
 /**
@@ -41,11 +41,11 @@ export function graphql(source: "\n  fragment JobDetail on Job {\n    id\n    da
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  query CompanyById($id: ID!) {\n    company(id: $id) {\n      id\n      name\n      description\n      jobs {\n        id\n        date\n        title\n      }\n    }\n  }\n"): (typeof documents)["\n  query CompanyById($id: ID!) {\n    company(id: $id) {\n      id\n      name\n      description\n      jobs {\n        id\n        date\n        title\n      }\n    }\n  }\n"];
+export function graphql(source: "\n  # use it for ts\n  query CompanyById($id: ID!) {\n    company(id: $id) {\n      id\n      name\n      description\n      jobs {\n        id\n        date\n        title\n      }\n    }\n  }\n"): (typeof documents)["\n  # use it for ts\n  query CompanyById($id: ID!) {\n    company(id: $id) {\n      id\n      name\n      description\n      jobs {\n        id\n        date\n        title\n      }\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  query JobById($id: ID!) {\n    job(id: $id) {\n      ...JobDetail\n    }\n  }\n  \n"): (typeof documents)["\n  query JobById($id: ID!) {\n    job(id: $id) {\n      ...JobDetail\n    }\n  }\n  \n"];
+export function graphql(source: "\n  query JobById($id: ID!) {\n    job(id: $id) {\n      ...JobDetail\n    }\n  }\n"): (typeof documents)["\n  query JobById($id: ID!) {\n    job(id: $id) {\n      ...JobDetail\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -53,7 +53,7 @@ export function graphql(source: "\n  query Jobs($limit: Int, $offset: Int) {\n  
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  mutation CreateJob($input: CreateJobInput!) {\n    job: createJob(input: $input) {\n      ...JobDetail\n    }\n  }\n  \n"): (typeof documents)["\n  mutation CreateJob($input: CreateJobInput!) {\n    job: createJob(input: $input) {\n      ...JobDetail\n    }\n  }\n  \n"];
+export function graphql(source: "\n  mutation CreateJob($input: CreateJobInput!) {\n    job: createJob(input: $input) {\n      ...JobDetail\n    }\n  }\n"): (typeof documents)["\n  mutation CreateJob($input: CreateJobInput!) {\n    job: createJob(input: $input) {\n      ...JobDetail\n    }\n  }\n"];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};
