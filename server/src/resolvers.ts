@@ -1,20 +1,31 @@
-import { GraphQLError } from 'graphql';
-import { getCompany } from './db/companies.js';
-import { countJobs, createJob, deleteJob, getJob, getJobs, getJobsByCompany, updateJob } from './db/jobs.js';
+import { GraphQLError } from "graphql";
+import { getCompany } from "./db/companies.js";
+import {
+  countJobs,
+  createJob,
+  deleteJob,
+  getJob,
+  getJobs,
+  getJobsByCompany,
+  updateJob,
+} from "./db/jobs.js";
+import { Resolvers } from "./generated/schema.js";
 
-export const resolvers = {
+// it will have this error: Promise<CompanyEntity>' is not assignable to type 'Resolver<ResolverTypeWrapper<Company>
+// we use `mappers` for fix it: we tell codegen know what type we want to use: https://the-guild.dev/graphql/codegen/plugins/typescript/typescript-resolvers#use-your-model-types-mappers
+export const resolvers: Resolvers = {
   Query: {
     company: async (_root, { id }) => {
       const company = await getCompany(id);
       if (!company) {
-        throw notFoundError('No Company found with id ' + id);
+        throw notFoundError("No Company found with id " + id);
       }
       return company;
     },
     job: async (_root, { id }) => {
       const job = await getJob(id);
       if (!job) {
-        throw notFoundError('No Job found with id ' + id);
+        throw notFoundError("No Job found with id " + id);
       }
       return job;
     },
@@ -28,29 +39,38 @@ export const resolvers = {
   Mutation: {
     createJob: (_root, { input: { title, description } }, { user }) => {
       if (!user) {
-        throw unauthorizedError('Missing authentication');
+        throw unauthorizedError("Missing authentication");
       }
       return createJob({ companyId: user.companyId, title, description });
     },
 
     deleteJob: async (_root, { id }, { user }) => {
       if (!user) {
-        throw unauthorizedError('Missing authentication');
+        throw unauthorizedError("Missing authentication");
       }
       const job = await deleteJob(id, user.companyId);
       if (!job) {
-        throw notFoundError('No Job found with id ' + id);
+        throw notFoundError("No Job found with id " + id);
       }
       return job;
     },
 
-    updateJob: async (_root, { input: { id, title, description } }, { user }) => {
+    updateJob: async (
+      _root,
+      { input: { id, title, description } },
+      { user }
+    ) => {
       if (!user) {
-        throw unauthorizedError('Missing authentication');
+        throw unauthorizedError("Missing authentication");
       }
-      const job = await updateJob({ id, companyId: user.companyId, title, description });
+      const job = await updateJob({
+        id,
+        companyId: user.companyId,
+        title,
+        description,
+      });
       if (!job) {
-        throw notFoundError('No Job found with id ' + id);
+        throw notFoundError("No Job found with id " + id);
       }
       return job;
     },
@@ -70,16 +90,16 @@ export const resolvers = {
 
 function notFoundError(message: string) {
   return new GraphQLError(message, {
-    extensions: { code: 'NOT_FOUND' },
+    extensions: { code: "NOT_FOUND" },
   });
 }
 
 function unauthorizedError(message: string) {
   return new GraphQLError(message, {
-    extensions: { code: 'UNAUTHORIZED' },
+    extensions: { code: "UNAUTHORIZED" },
   });
 }
 
 function toIsoDate(value: string) {
-  return value.slice(0, 'yyyy-mm-dd'.length);
+  return value.slice(0, "yyyy-mm-dd".length);
 }
