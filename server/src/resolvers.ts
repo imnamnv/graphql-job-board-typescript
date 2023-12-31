@@ -10,6 +10,13 @@ import {
   updateJob,
 } from "./db/jobs.js";
 import { Resolvers } from "./generated/schema.js";
+import DataLoader from "dataloader";
+import { CompanyEntity, UserEntity } from "./db/types.js";
+
+export interface ResolverContext {
+  companyLoader: DataLoader<string, CompanyEntity, string>;
+  user?: UserEntity;
+}
 
 // it will have this error: Promise<CompanyEntity>' is not assignable to type 'Resolver<ResolverTypeWrapper<Company>
 // we use `mappers` for fix it: we tell codegen know what type we want to use: https://the-guild.dev/graphql/codegen/plugins/typescript/typescript-resolvers#use-your-model-types-mappers

@@ -5,9 +5,10 @@
     "src/generated/schema.ts": {
       "plugins": ["typescript", "typescript-resolvers"],
       "config": {
+        "contextType": "../resolvers.ts#ResolverContext",
         "mappers": {
-          "Company": "../db/types#CompanyEntity",
-          "Job": "../db/types#JobEntity"
+          "Company": "../db/types.ts#CompanyEntity",
+          "Job": "../db/types.ts#JobEntity"
         },
         "skipTypename": true
       }
