@@ -1,0 +1,14 @@
+{
+  "overwrite": true,
+  "schema": "../server/schema.graphql",
+  "documents": "src/lib/graphql/*.ts",
+  "generates": {
+    "src/generated/": {
+      "preset": "client",
+      "plugins": [],
+      "config": {
+        "skipTypename": true
+      }
+    }
+  }
+}
